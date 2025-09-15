@@ -4,6 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth, AuthProvider } from "@/hooks/useAuth";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
 import Home from "@/pages/home";
 import Services from "@/pages/services";
 import About from "@/pages/about";
@@ -17,6 +18,9 @@ import RGPD from "@/pages/rgpd";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
+  
+  // Hook pour faire défiler automatiquement vers le haut à chaque changement de page
+  useScrollToTop();
 
   // Afficher un écran de chargement global pendant la vérification de l'auth
   if (isLoading) {
