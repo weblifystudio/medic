@@ -1,0 +1,509 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@400;500;700&family=Source+Sans+Pro:wght@400;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Modern Medical Color Palette */
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(210, 11%, 15%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(210, 11%, 15%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(210, 11%, 15%);
+  
+  /* Primary: Medical Teal - Professional & Trustworthy */
+  --primary: hsl(192, 60%, 50%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --primary-light: hsl(192, 60%, 85%);
+  --primary-dark: hsl(192, 60%, 35%);
+  
+  /* Secondary: Mint Green - Healing & Fresh */
+  --secondary: hsl(158, 45%, 65%);
+  --secondary-foreground: hsl(210, 11%, 15%);
+  --secondary-light: hsl(158, 45%, 90%);
+  
+  /* Accent: Cyan - Modern & Clean */
+  --accent: hsl(185, 70%, 55%);
+  --accent-foreground: hsl(0, 0%, 100%);
+  
+  /* Neutrals - Enhanced contrast & sophistication */
+  --muted: hsl(210, 15%, 97%);
+  --muted-foreground: hsl(210, 8%, 50%);
+  --border: hsl(210, 20%, 92%);
+  --input: hsl(210, 20%, 95%);
+  --ring: hsl(192, 60%, 50%);
+  
+  /* Status colors */
+  --destructive: hsl(0, 85%, 60%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --success: hsl(158, 45%, 50%);
+  --warning: hsl(42, 90%, 60%);
+  
+  /* Modern Glass & Blur Effects */
+  --glass-bg: hsla(0, 0%, 100%, 0.8);
+  --glass-border: hsla(210, 20%, 90%, 0.3);
+  --backdrop-blur: blur(16px);
+  
+  /* Typography - Inter as primary, Raleway for headings */
+  --font-inter: 'Inter', system-ui, sans-serif;
+  --font-raleway: 'Raleway', sans-serif;
+  --font-source: 'Source Sans Pro', sans-serif;
+  
+  /* Modern Spacing & Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  
+  /* Z-index layers */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  
+  /* Modern Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  
+  /* Animation durations */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 350ms;
+  
+  /* Animation easings */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-circ: cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+.dark {
+  /* Dark theme - Medical Professional */
+  --background: hsl(210, 15%, 6%);
+  --foreground: hsl(210, 15%, 95%);
+  --card: hsl(210, 15%, 10%);
+  --card-foreground: hsl(210, 15%, 90%);
+  --popover: hsl(210, 15%, 8%);
+  --popover-foreground: hsl(210, 15%, 95%);
+  
+  /* Primary colors maintain medical trust in dark mode */
+  --primary: hsl(192, 60%, 60%);
+  --primary-foreground: hsl(210, 15%, 6%);
+  --primary-light: hsl(192, 60%, 25%);
+  --primary-dark: hsl(192, 60%, 75%);
+  
+  --secondary: hsl(158, 45%, 55%);
+  --secondary-foreground: hsl(210, 15%, 6%);
+  --secondary-light: hsl(158, 45%, 20%);
+  
+  --accent: hsl(185, 70%, 65%);
+  --accent-foreground: hsl(210, 15%, 6%);
+  
+  /* Dark neutrals */
+  --muted: hsl(210, 15%, 12%);
+  --muted-foreground: hsl(210, 10%, 60%);
+  --border: hsl(210, 15%, 18%);
+  --input: hsl(210, 15%, 15%);
+  --ring: hsl(192, 60%, 60%);
+  
+  /* Dark glass effects */
+  --glass-bg: hsla(210, 15%, 10%, 0.8);
+  --glass-border: hsla(210, 15%, 25%, 0.3);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-source antialiased;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Typography utilities */
+  .font-inter {
+    font-family: var(--font-inter);
+  }
+  
+  .font-raleway {
+    font-family: var(--font-raleway);
+  }
+
+  .font-source {
+    font-family: var(--font-source);
+  }
+
+  /* Modern gradients */
+  .hero-gradient {
+    background: linear-gradient(135deg, 
+      hsl(192, 60%, 96%) 0%, 
+      hsl(158, 45%, 97%) 50%,
+      hsl(185, 70%, 98%) 100%);
+    position: relative;
+  }
+  
+  .hero-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+      hsla(192, 60%, 50%, 0.03) 0%,
+      hsla(158, 45%, 50%, 0.02) 50%,
+      hsla(185, 70%, 50%, 0.03) 100%);
+    animation: shimmer 8s ease-in-out infinite;
+    pointer-events: none;
+  }
+  
+  .gradient-medical {
+    background: linear-gradient(135deg,
+      var(--primary) 0%,
+      var(--secondary) 50%,
+      var(--accent) 100%);
+  }
+  
+  /* Glass morphism effects */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: var(--backdrop-blur);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-glass);
+  }
+  
+  .glass-card {
+    @apply glass rounded-xl p-6;
+    transition: all var(--duration-normal) var(--ease-out-expo);
+  }
+  
+  .glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl), var(--shadow-glass);
+  }
+  
+  .glass-nav {
+    @apply glass;
+    border-bottom: 1px solid var(--glass-border);
+  }
+  
+  /* Modern buttons */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground rounded-lg px-6 py-3 font-medium;
+    @apply transition-all duration-fast ease-out-expo;
+    @apply hover:bg-primary-dark hover:shadow-lg hover:-translate-y-1;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50;
+    @apply active:translate-y-0 active:shadow-md;
+  }
+  
+  .btn-glass {
+    @apply glass text-primary hover:bg-primary hover:text-primary-foreground;
+    @apply rounded-lg px-6 py-3 font-medium;
+    @apply transition-all duration-fast ease-out-expo;
+    @apply hover:shadow-lg hover:-translate-y-1;
+  }
+  
+  /* Modern cards */
+  .card-modern {
+    @apply bg-card border border-border rounded-xl p-6;
+    @apply transition-all duration-normal ease-out-expo;
+    @apply hover:shadow-lg hover:-translate-y-2;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .card-modern:hover {
+    box-shadow: var(--shadow-xl);
+  }
+  
+  .service-card {
+    @apply card-modern;
+  }
+  
+  .service-card:hover {
+    border-color: hsl(var(--primary) / 0.2);
+  }
+  
+  /* Modern icons */
+  .service-icon {
+    @apply w-16 h-16 rounded-xl flex items-center justify-center mb-6;
+    @apply text-primary;
+    @apply transition-all duration-fast ease-out-expo;
+    background-color: hsl(var(--primary) / 0.1);
+  }
+  
+  .service-card:hover .service-icon {
+    @apply text-primary-foreground scale-105;
+    background-color: var(--primary);
+  }
+
+  .contact-icon {
+    @apply w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0;
+    @apply text-primary;
+    @apply transition-all duration-fast ease-out-expo;
+    background-color: hsl(var(--primary) / 0.1);
+  }
+  
+  /* Modern inputs */
+  .input-modern {
+    @apply w-full px-4 py-3 bg-background border border-border rounded-lg;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary;
+    @apply transition-all duration-fast ease-out-expo;
+  }
+  
+  /* Stepper component */
+  .stepper {
+    @apply flex items-center justify-center space-x-4;
+  }
+  
+  .stepper-step {
+    @apply flex items-center justify-center w-10 h-10 rounded-full;
+    @apply border-2 border-muted text-muted-foreground;
+    @apply transition-all duration-fast ease-out-expo;
+  }
+  
+  .stepper-step.active {
+    @apply border-primary bg-primary text-primary-foreground;
+    @apply shadow-lg scale-110;
+  }
+  
+  .stepper-step.completed {
+    @apply border-secondary bg-secondary text-secondary-foreground;
+  }
+  
+  .stepper-line {
+    @apply h-0.5 bg-muted flex-1;
+    @apply transition-all duration-normal ease-out-expo;
+  }
+  
+  .stepper-line.completed {
+    @apply bg-secondary;
+  }
+  
+  /* Timeline component */
+  .timeline {
+    @apply relative;
+  }
+  
+  .timeline::before {
+    content: '';
+    @apply absolute left-4 top-0 w-0.5 h-full bg-border;
+  }
+  
+  .timeline-item {
+    @apply relative pl-12 pb-8;
+  }
+  
+  .timeline-dot {
+    @apply absolute left-2 top-2 w-4 h-4 rounded-full bg-primary;
+    @apply ring-4 ring-background border-2 border-primary;
+    box-shadow: 0 0 20px var(--primary);
+  }
+  
+  .timeline-dot.pulse {
+    animation: pulse 2s infinite;
+  }
+  
+  /* Loading states */
+  .loading-shimmer {
+    background: linear-gradient(
+      90deg,
+      var(--muted) 25%,
+      var(--border) 50%,
+      var(--muted) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+  
+  /* Utilities */
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .border-gradient {
+    border-image: linear-gradient(135deg, var(--primary), var(--secondary)) 1;
+  }
+  
+  /* Focus improvements */
+  .focus-visible {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50;
+  }
+  
+  /* Smooth page transitions */
+  .page-transition {
+    animation: fade-in var(--duration-normal) var(--ease-out-expo);
+  }
+  
+  /* Modern spacing */
+  .section-padding {
+    @apply py-16 lg:py-24;
+  }
+  
+  .container-modern {
+    @apply container mx-auto px-4 max-w-6xl;
+  }
+
+  /* Professional gradients */
+  .text-gradient {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .text-gradient {
+      background-size: 200% 200%;
+      animation: gradient-shift 3s ease-in-out infinite;
+    }
+  }
+
+  .bg-section {
+    background: linear-gradient(135deg, 
+      hsl(210, 20%, 99%) 0%, 
+      hsl(192, 60%, 98%) 50%,
+      hsl(158, 45%, 99%) 100%);
+  }
+
+  /* Accessibility-aware animations */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Enhanced animations */
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(1deg); }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { 
+      box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary);
+    }
+    50% { 
+      box-shadow: 0 0 30px var(--primary), 0 0 60px var(--primary);
+    }
+  }
+
+  /* Professional shadows */
+  .shadow-3xl {
+    box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
+  }
+
+  .shadow-professional {
+    box-shadow: 
+      0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+      0 2px 4px -1px rgba(0, 0, 0, 0.06),
+      0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Enhanced card effects */
+  .card-floating {
+    @apply card-modern;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .card-professional {
+    @apply bg-card border rounded-2xl p-8;
+    @apply transition-all duration-slow ease-out-expo;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 
+      0 8px 32px rgba(31, 38, 135, 0.07),
+      0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .card-professional:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 
+      0 20px 40px rgba(31, 38, 135, 0.15),
+      0 8px 16px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary);
+  }
+
+  /* Modern medical theme elements */
+  .medical-icon {
+    @apply w-20 h-20 rounded-2xl flex items-center justify-center mb-6;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    @apply text-white shadow-professional;
+    @apply transition-all duration-slow ease-out-expo;
+  }
+
+  .medical-icon:hover {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .medical-icon:hover {
+      animation: pulse-glow 1.5s ease-in-out;
+    }
+  }
+
+  /* Professional buttons */
+  .btn-professional {
+    @apply relative overflow-hidden rounded-2xl px-8 py-4 font-raleway font-bold text-lg;
+    @apply transition-all duration-slow ease-out-expo;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    @apply text-white shadow-professional;
+    position: relative;
+  }
+
+  .btn-professional::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+  }
+
+  .btn-professional:hover::before {
+    left: 100%;
+  }
+
+  .btn-professional:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(31, 38, 135, 0.3);
+  }
+
+  /* Navigation enhancements */
+  .nav-professional {
+    @apply glass backdrop-blur-xl;
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+  }
+}
