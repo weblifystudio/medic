@@ -1,0 +1,230 @@
+Brief projet — Site vitrine : Café Pavillon (Café parisien, chic & branché)
+Objectif
+Créer un site vitrine one-page (avec sections ancrées) responsive et accessible qui reflète l’univers élégant et chaleureux d’un café parisien haut de gamme. Le site sert à : présenter le lieu, montrer la carte, inspirer (photos), faciliter la réservation et la privatisation, et améliorer la découverte locale (SEO local).
+Direction artistique (instructions précises)
+Ton & personnalité : élégant, chaleureux, discret, contemporain. Pas de clinquant. Atmosphère « salon parisien moderne » : lumière chaude, matériaux naturels (bois, cuir, céramique), touches terracotta.
+Palette (valeurs hex exactes) :
+Charcoal (texte principal) : #1F2937
+Warm Sand (accent / boutons) : #C49B6E
+Soft Cream (background) : #F6F3EE
+Terracotta (call to action accent) : #A83E2E
+White carte / surfaces : #FFFFFF
+Typographie :
+Titres : Playfair Display (weights 400,700) — serif, letter-spacing normal.
+Texte / UI : Inter (300,400,600,700) — sans serif, variable for weight.
+Fallbacks : serif / system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial.
+Iconographie : lucide / feather style, stroke 1.5–2px, round caps.
+Photographie : images lumineuses, palette chaude, profondeur de champ peu profonde (bokeh léger), gros plans sur cafés/pâtisseries, plans d’ambiance montrant clientèle discrète. Prioriser photos propre marque (studio/photographe) ; sinon Unsplash pour prototype.
+Spacing & grid : large aérations (64px sur desktop entre sections), container centré max-width 1200px, card corners 12–16px, shadows légers box-shadow: 0 6px 20px rgba(31,41,55,0.08).
+Animation : micro-animations subtiles — fade/slide-in pour hero, hover scale 1.03 sur images, button press animation (scale 0.98) ; durée 160–260ms, ease-out.
+Structure du site (sections obligatoires)
+Header (sticky)
+Logo (text+icon) à gauche, nav ancrée à droite (À propos, Menu, Galerie, Privatisations, Réserver, Contact).
+CTA bouton « Réserver » visible en desktop et dans un petit bouton flottant sur mobile.
+Hero
+Grand visuel (image large, aspect 16:9 desktop), H1, sous-titre, 2 CTA (Voir le menu / Réserver), coordonnées rapides (adresse, téléphone, horaires).
+Texte hero exact (voir section « Copy »).
+À propos / Vision
+Texte court, 2 bullets (grains sélectionnés, pâtisseries maison), photo d’accompagnement.
+Carte / Menu — coups de coeur
+Carte condensée, catégories, prix. Bouton « Voir le menu complet (PDF) ».
+Galerie
+Masonry ou grid 3 colonnes desktop, lazy loading, lightbox pour visualisation.
+Privatisations & événements
+Capacités, proposition commerciale et CTA « Demander un devis » (formulaire).
+Réservation
+Widget intégré (option A : Resy/OpenTable/Tock ; option B : simple form qui envoie un e-mail / webhook au back). Voir choix d’intégration en technique.
+Contact & Localisation
+Adresse, phone, email, réseaux, carte interactive (Leaflet ou Google Maps embed).
+Footer
+Mentions légales, horaires, réseaux, newsletter opt-in (double opt-in).
+Contenu / Copy (texte exact à intégrer — français)
+Nom : Café Pavillon
+Tagline : Un coin de Paris — café, pâtisseries et rencontres
+Hero H1 : Un chaleureux rendez-vous parisien
+Hero paragraph : Café Pavillon est un lieu pour les conversations longues, les cafés soignés et les pâtisseries travaillées — un équilibre entre élégance discrète et chaleur conviviale.
+Adresse : 12 Rue des Artistes, 75006 Paris
+Téléphone : +33 1 23 45 67 89
+Horaires : Mar–Dim 08:00–19:00
+À propos (titre) : Notre vision
+Paragraphe : Fondé pour célébrer la douceur du matin et la lenteur des après-midi, Café Pavillon est pensé comme un salon moderne : mobilier choisi, éclairage chaleureux et une carte qui met en valeur producteurs locaux et savoir-faire artisanal.
+Bullets :
+Grains sélectionnés — Partenariats avec micro torréfacteurs parisiens.
+Pâtisseries maison — Douceurs préparées chaque matin.
+Menu (extrait à afficher) :
+Cafés signatures
+Café Pavillon (espresso tonic) — €6
+Velouté Latte — lait d’avoine — €5
+Long Black Rive Gauche — €4
+Pâtisseries
+Tartelette citrone — pâte sablée — €7
+Financier au thé matcha — €5
+Croissant au beurre AOP — €3.50
+Planches
+Planche de saison (fromages & charcuteries) — €14
+Tartine du chef — ricotta, miel, figues — €9
+Privatisations CTA : Demander un devis
+Form microcopy : Réservation rapide — pour les groupes plus grands, contactez-nous par email.
+Email : bonjour@cafepavillon.paris
+Meta title (SEO) : Café Pavillon — Café & Pâtisseries | Saint-Germain, Paris
+Meta description (SEO) : Café Pavillon, à Saint-Germain — cafés d’exception, pâtisseries maison et espace chaleureux pour se retrouver. Réservation et privatisation.
+Spécifications UI / composants (livrable précis)
+Fournir sous forme de composants réutilisables (React ou autre) :
+Header : props logo, navLinks[], cta (sticky, mobile hamburger).
+Hero : props image, title, subtitle, ctaPrimary, ctaSecondary, metaList (address/phone/hours).
+Section : layout container réutilisable (padding responsive).
+Card : menu card, gallery card, event card.
+GalleryGrid : lazy load, lightbox integration.
+ContactCard : map embed, social links.
+ReservationForm : client-side validation, accessible labels, success/error states.
+Modal : accessible (focus trap, ESC to close).
+Footer : social + legal.
+Design tokens (colors, spacing, radii, shadows, font sizes) exposés pour dev.
+Comportement / Responsive / Accessibility
+Breakpoints : mobile-first — sm: 640px, md: 768px, lg: 1024px, xl: 1280px.
+Mobile :
+Header compact avec logo + hamburger.
+CTA « Réserver » accessible flottant (bottom right) sur mobile.
+Hero image height réduite, texte centré.
+Accessibilité :
+Contraste minimal WCAG AA. Vérifier contraste texte/background (colors fournis sont conformes pour texte principal sur background clair ; vérifier boutons et éléments sur images).
+Tous les éléments interactifs doivent avoir :focus visible, aria-label si nécessaire, semantic HTML.
+Forms : labels liés for/id, aria-invalid pour erreurs, error messages annoncés.
+Images : alt explicite. Gallery images alt="Photo — [description courte]".
+Nav skip link to main content.
+Keyboard accessible lightbox.
+Use lang="fr" on html.
+Internationalisation : site principal en français. Préparer architecture pour ajout d’une version anglaise (i18n keys).
+Performance & assets
+Images :
+Fournir images optimisées : WebP + fallback JPEG. Serve responsive sizes (srcset, sizes) ; desktop up to 1600px, mobile 480px.
+LQIP / blurred placeholder technique pour images hero/gallery (SVG or base64 tiny image).
+Lazy-load non-critical images (loading="lazy").
+Fonts : self-host recommended (woff2) to avoid CLS. Preload critical fonts; use font-display: swap.
+Bundle : keep initial JS under 150–200KB gzipped if possible. Hydration only where nécessaire. Use code splitting for gallery/lightbox.
+CDN : hébergement des assets statiques (images) via CDN (Cloudflare/Akamai/Netlify).
+Performance budget : Lighthouse scores → aim >=90 perf, >=90 accessibility.
+SEO & données structurées
+Meta : unique meta title/description per page (home). OpenGraph tags with image 1200x630, og:locale=fr_FR.
+JSON-LD (LocalBusiness) — inclure dans <head> (exemple exact) :
+{
+  "@context": "https://schema.org",
+  "@type": "CafeOrCoffeeShop",
+  "name": "Café Pavillon",
+  "image": "https://example.com/photos/hero.jpg",
+  "@id": "https://cafepavillon.paris",
+  "url": "https://cafepavillon.paris",
+  "telephone": "+33123456789",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "12 Rue des Artistes",
+    "addressLocality": "Paris",
+    "postalCode": "75006",
+    "addressCountry": "FR"
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+      "opens": "08:00",
+      "closes": "19:00"
+    }
+  ],
+  "sameAs": ["https://www.instagram.com/cafepavillon"]
+}
+Sitemap.xml + robots.txt
+Canonical tags
+Intégrations techniques ( recommandations concrètes )
+Réservation : idéalement intégrer Resy / OpenTable / Tock via widget. Si pas disponible -> form backend : POST /api/reservations -> envoi email + sauvegarde DB (example payload JSON plus bas).
+Formulaire contact / devis : POST /api/contact -> envoi mail + sauvegarde.
+Map : Leaflet + OpenStreetMap (pas de clé) ou Google Maps (clé → handle billing/GMaps API).
+CMS (optionnel) : Sanity / Contentful / Strapi pour menu & images (prévoir modèles : MenuCategory, MenuItem, GalleryImage, Event).
+Analytics / tracking : Google Analytics 4 + consent banner (CMP). Respect RGPD (consent before analytics). Event tracking : CTA clicks, reservation submits, phone click (tel:), email click.
+Email : transactional via SendGrid / Mailgun (templates). Double opt-in pour newsletter.
+Security : HTTPS obligatoire, CSP, rate limiting on forms (Captcha reCAPTCHA v3 or hCaptcha optional).
+API : payloads examples (à implémenter côté backend)
+Réservation (POST /api/reservations)
+{
+  "name": "Jean Dupont",
+  "phone": "+33612345678",
+  "email": "jean@example.com",
+  "date": "2025-12-15",
+  "time": "18:30",
+  "partySize": 2,
+  "notes": "Anniversaire"
+}
+Réponse attendue : { "status": "ok", "message": "Demande reçue", "bookingId": "R-20251215-..."}
+Sécurité & conformité (RGPD)
+Cookie banner / consent management : bloquer analytics & trackers jusqu’au consentement.
+Privacy policy page obligatoire ; contact pour suppression des données (email).
+Stockage des données personnelles chiffré côté backend.
+Logs d’accès anonymisés.
+Testing & QA (checklist d’acceptation)
+Responsive : vérifier rendu sur 320px, 375px, 425px, 768px, 1024px, 1366px.
+Lighthouse : perf >= 90, access >= 90, best practices >= 90.
+Accessibility : axe / Lighthouse / manual keyboard navigation — aucun élément interactif sans focus visible, alt text présent, color contrast OK.
+Forms : validation client + server ; messages d’erreur et success.
+Image quality & LCP under threshold (aim LCP < 2.5s on fast 3G emulation).
+Cross-browser : Chrome, Firefox, Safari (iOS), Edge.
+SEO smoke test : meta tags, OG, JSON-LD present, sitemap accessible.
+Livrables (ce que j’attends du dev / équipe)
+Code source sur repo Git (main = production, develop = staging) + README d’installation.
+Composants UI réutilisables documentés (Storybook recommandé).
+Assets optimisés (webp + fallback).
+JSON-LD et meta tags vérifiés.
+Intégration réservation (widget ou API) fonctionnelle + webhook email.
+Tests automatisés basiques (lint, unit tests pour utilitaires, e2e test reservation flow — Cypress ou Playwright).
+Déploiement sur staging (Netlify / Vercel / Render) + prod.
+Fichier handoff.md expliquant : polices, tokens, endpoints API, clés (où stocker), commandes build, comment republier.
+Critères d’acceptation (définis et mesurables)
+Toutes les sections visibles et navigables via nav ancré.
+Formulaire de réservation renvoie 200 et affiche message succès.
+Lightbox galerie accessible au clavier.
+Lighthouse perf >= 85 (acceptation minimale) ; access >= 90.
+JSON-LD validé par Google Rich Results test (local business).
+Consent banner bloque GA jusqu’au opt-in.
+Déploiement accessible via HTTPS au domaine https://cafepavillon.paris (ou staging.cafepavillon.paris pour staging).
+Organisation des tâches recommandée (pour backlog)
+Design : finaliser 1 moodboard + 3 images hero, valider palette & typographie.
+Frontend : skeleton + header + hero + about.
+Frontend : menu cards + gallery + reservation form.
+Backend : endpoints reservations/contact, email provider.
+Integration : maps + booking widget.
+QA & perf : image optimization, lighthouse improvements.
+SEO & legal : JSON-LD, sitemap, privacy.
+Handoff & deploy.
+Remarque pour le développeur : privilégier une approche mobile-first, composants atomiques, et documenter toutes les décisions (raison et tradeoffs).
+Snippets utiles (à copier/coller)
+Tailwind config tokens (extrait)
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        charcoal: '#1F2937',
+        warmsand: '#C49B6E',
+        softcream: '#F6F3EE',
+        terracotta: '#A83E2E',
+      },
+      fontFamily: {
+        playfair: ['Playfair Display', 'serif'],
+        inter: ['Inter', 'sans-serif'],
+      },
+      borderRadius: {
+        xl: '12px',
+      }
+    }
+  }
+}
+Meta tags (head)
+<title>Café Pavillon — Café & Pâtisseries | Saint-Germain, Paris</title>
+<meta name="description" content="Café Pavillon, à Saint-Germain — cafés d’exception, pâtisseries maison et espace chaleureux pour se retrouver. Réservation et privatisation.">
+<meta property="og:title" content="Café Pavillon — Café & Pâtisseries | Saint-Germain, Paris" />
+<meta property="og:description" content="Café Pavillon, à Saint-Germain — cafés d’exception, pâtisseries maison et espace chaleureux pour se retrouver." />
+<meta property="og:image" content="https://cafepavillon.paris/og-image.jpg" />
+<meta property="og:locale" content="fr_FR" />
+Rappels / décisions qui relèvent du PO (ce que tu dois me dire si tu veux que je fixe)
+(Je peux décider tout, mais pour lancer le dev il faut que tu confirmes éventuellement ces points — si tu veux que je tranche, je les fixe sans te poser de question.)
+Choix réservation : widget tiers (Resy/OpenTable/Tock) ou en-propre (form → backend).
+Photos : fournir par vous (préféré) ou utiliser banque d’images (Unsplash) pour MVP.
+Domaine & hébergement (tu as un domaine ou je propose ?).
+Gestion des emails (SendGrid/Mailgun) : accès API.

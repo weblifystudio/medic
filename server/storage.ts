@@ -1,142 +1,115 @@
 import { 
-  users, 
-  contactMessages, 
-  appointments,
   type User, 
-  type UpsertUser,
-  type ContactMessage, 
-  type InsertContactMessage, 
-  type Appointment, 
-  type InsertAppointment 
+  type InsertUser,
+  type Reservation,
+  type InsertReservation,
+  type ContactRequest,
+  type InsertContact,
+  type NewsletterSubscription,
+  type InsertNewsletter
 } from "@shared/schema";
-import { db } from "./db";
-import { eq, and, gte, lte, ne } from "drizzle-orm";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
-  // User operations - MANDATORY for Replit Auth
   getUser(id: string): Promise<User | undefined>;
-  upsertUser(user: UpsertUser): Promise<User>;
-  // Auth methods
-  getUserByEmail(email: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: any): Promise<User>;
-  // Contact and appointment methods
-  createContactMessage(message: InsertContactMessage): Promise<ContactMessage>;
-  getContactMessages(): Promise<ContactMessage[]>;
-  createAppointment(appointment: InsertAppointment): Promise<Appointment>;
-  getAppointments(): Promise<Appointment[]>;
-  getAppointmentsByDate(date: Date): Promise<Appointment[]>;
-  getUserAppointments(userId: string): Promise<Appointment[]>;
+  createUser(user: InsertUser): Promise<User>;
+  
+  createReservation(reservation: InsertReservation): Promise<Reservation>;
+  getReservations(): Promise<Reservation[]>;
+  
+  createContact(contact: InsertContact): Promise<ContactRequest>;
+  getContacts(): Promise<ContactRequest[]>;
+  
+  createNewsletterSubscription(subscription: InsertNewsletter): Promise<NewsletterSubscription>;
+  getNewsletterSubscriptions(): Promise<NewsletterSubscription[]>;
+  isEmailSubscribed(email: string): Promise<boolean>;
 }
 
-// Database storage implementation - from blueprint javascript_database
-export class DatabaseStorage implements IStorage {
-  // User operations - MANDATORY for Replit Auth
+export class MemStorage implements IStorage {
+  private users: Map<string, User>;
+  private reservations: Map<string, Reservation>;
+  private contacts: Map<string, ContactRequest>;
+  private newsletters: Map<string, NewsletterSubscription>;
+
+  constructor() {
+    this.users = new Map();
+    this.reservations = new Map();
+    this.contacts = new Map();
+    this.newsletters = new Map();
+  }
+
   async getUser(id: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.id, id));
-    return user;
+    return this.users.get(id);
   }
 
-  async upsertUser(userData: UpsertUser): Promise<User> {
-    const [user] = await db
-      .insert(users)
-      .values(userData)
-      .onConflictDoUpdate({
-        target: users.id,
-        set: {
-          ...userData,
-          updatedAt: new Date(),
-        },
-      })
-      .returning();
-    return user;
-  }
-
-  // Auth methods
-  async getUserByEmail(email: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.email, email));
-    return user;
-  }
-
-  // Legacy methods for backwards compatibility
   async getUserByUsername(username: string): Promise<User | undefined> {
-    // Note: This is deprecated since we use email instead of username for Replit Auth
-    const [user] = await db.select().from(users).where(eq(users.email, username));
+    return Array.from(this.users.values()).find(
+      (user) => user.username === username,
+    );
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const id = randomUUID();
+    const user: User = { ...insertUser, id };
+    this.users.set(id, user);
     return user;
   }
 
-  async createUser(insertUser: any): Promise<User> {
-    const [user] = await db
-      .insert(users)
-      .values(insertUser)
-      .returning();
-    return user;
+  async createReservation(insertReservation: InsertReservation): Promise<Reservation> {
+    const id = randomUUID();
+    const reservation: Reservation = {
+      ...insertReservation,
+      id,
+      createdAt: new Date(),
+    };
+    this.reservations.set(id, reservation);
+    return reservation;
   }
 
-  // Contact messages
-  async createContactMessage(insertMessage: InsertContactMessage): Promise<ContactMessage> {
-    const [message] = await db
-      .insert(contactMessages)
-      .values(insertMessage)
-      .returning();
-    return message;
+  async getReservations(): Promise<Reservation[]> {
+    return Array.from(this.reservations.values()).sort(
+      (a, b) => (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0)
+    );
   }
 
-  async getContactMessages(): Promise<ContactMessage[]> {
-    return await db
-      .select()
-      .from(contactMessages)
-      .orderBy(contactMessages.createdAt);
+  async createContact(insertContact: InsertContact): Promise<ContactRequest> {
+    const id = randomUUID();
+    const contact: ContactRequest = {
+      ...insertContact,
+      id,
+      createdAt: new Date(),
+    };
+    this.contacts.set(id, contact);
+    return contact;
   }
 
-  // Appointments
-  async createAppointment(insertAppointment: InsertAppointment): Promise<Appointment> {
-    const [appointment] = await db
-      .insert(appointments)
-      .values({
-        ...insertAppointment,
-        status: "pending",
-        firstVisit: insertAppointment.firstVisit ?? false,
-        notes: insertAppointment.notes ?? null,
-      })
-      .returning();
-    return appointment;
+  async getContacts(): Promise<ContactRequest[]> {
+    return Array.from(this.contacts.values()).sort(
+      (a, b) => (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0)
+    );
   }
 
-  async getAppointments(): Promise<Appointment[]> {
-    return await db
-      .select()
-      .from(appointments)
-      .orderBy(appointments.date, appointments.time);
+  async createNewsletterSubscription(insertNewsletter: InsertNewsletter): Promise<NewsletterSubscription> {
+    const id = randomUUID();
+    const subscription: NewsletterSubscription = {
+      ...insertNewsletter,
+      id,
+      createdAt: new Date(),
+    };
+    this.newsletters.set(id, subscription);
+    return subscription;
   }
 
-  async getAppointmentsByDate(date: Date): Promise<Appointment[]> {
-    const startOfDay = new Date(date);
-    startOfDay.setHours(0, 0, 0, 0);
-    const endOfDay = new Date(date);
-    endOfDay.setHours(23, 59, 59, 999);
-
-    return await db
-      .select()
-      .from(appointments)
-      .where(
-        and(
-          gte(appointments.date, startOfDay),
-          lte(appointments.date, endOfDay),
-          ne(appointments.status, "cancelled")
-        )
-      )
-      .orderBy(appointments.time);
+  async getNewsletterSubscriptions(): Promise<NewsletterSubscription[]> {
+    return Array.from(this.newsletters.values());
   }
 
-  async getUserAppointments(userId: string): Promise<Appointment[]> {
-    return await db
-      .select()
-      .from(appointments)
-      .where(eq(appointments.userId, userId))
-      .orderBy(appointments.date, appointments.time);
+  async isEmailSubscribed(email: string): Promise<boolean> {
+    return Array.from(this.newsletters.values()).some(
+      (sub) => sub.email.toLowerCase() === email.toLowerCase()
+    );
   }
 }
 
-export const storage = new DatabaseStorage();
+export const storage = new MemStorage();

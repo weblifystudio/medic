@@ -1,86 +1,170 @@
-# Overview
+# Café Pavillon - Replit Configuration
 
-This is a modern full-stack web application for a French medical practice (Dr. Martine Beaumont). Originally built as a single-page application, it has been successfully transformed into a comprehensive multi-page website with an integrated appointment booking system. The application features dedicated pages for services, about information, contact, and appointment scheduling. The tech stack includes React with Wouter routing for the frontend, Express.js for the backend, and PostgreSQL with Drizzle ORM for persistent data storage.
+## Overview
 
-## Latest Changes (September 2025)
+Café Pavillon is a one-page website for an elegant Parisian café. The site showcases the café's offerings, atmosphere, and services through a sophisticated, warm design inspired by contemporary Parisian salon aesthetics. The application is a full-stack TypeScript project featuring a React frontend with shadcn/ui components and an Express backend with PostgreSQL database integration.
 
-The website has been completely transformed from a single-page architecture to a true multi-page application:
+**Primary Purpose**: Marketing and customer engagement for a high-end Parisian café, enabling table reservations, event inquiries, and newsletter subscriptions.
 
-- **Multi-page Navigation**: Replaced scroll-based navigation with Wouter-based routing across 5 main pages
-- **Dedicated Pages**: Services, À propos, Contact, and Rendez-vous with comprehensive French medical content
-- **Appointment Booking System**: Complete booking flow with calendar interface, time slot validation, and backend persistence
-- **Database Integration**: PostgreSQL database with appointment management and contact form persistence
-- **Enhanced Home Page**: Redesigned landing page with proper CTAs linking to dedicated pages
+**Target Audience**: Café patrons seeking refined coffee, pastries, and a warm gathering space in Saint-Germain, Paris.
 
-# User Preferences
+## User Preferences
 
 Preferred communication style: Simple, everyday language.
 
-# System Architecture
+## System Architecture
 
-## Frontend Architecture
-The frontend is built with React 18 using Vite as the build tool and bundler. The application follows a component-based architecture with:
-- **UI Framework**: shadcn/ui components built on top of Radix UI primitives
-- **Styling**: Tailwind CSS with custom design system variables for consistent theming
-- **State Management**: TanStack React Query for server state management
-- **Routing**: Wouter for lightweight client-side routing
-- **Form Handling**: React Hook Form with Zod validation
-- **Type Safety**: Full TypeScript implementation throughout
+### Frontend Architecture
 
-The frontend is organized into logical sections including navigation, hero, services, about, contact, and footer components. The design implements a professional medical theme with custom fonts (Raleway and Source Sans Pro) and a cohesive color scheme.
+**Framework**: React 18 with TypeScript, using Vite as the build tool and development server.
 
-## Backend Architecture
-The backend uses Express.js with TypeScript in ESM module format. Key architectural decisions include:
-- **API Structure**: RESTful API with `/api` prefix for all endpoints
-- **Data Layer**: Abstracted storage interface (`IStorage`) with in-memory implementation (`MemStorage`) for development
-- **Request Handling**: Middleware for JSON parsing, CORS, and request logging
-- **Error Handling**: Centralized error handling with proper HTTP status codes
-- **Validation**: Zod schemas for request validation shared between client and server
+**UI Component Library**: shadcn/ui (Radix UI primitives) configured with the "new-york" style preset. Components are installed locally in `client/src/components/ui/` for full customization.
 
-The server supports both development (with Vite integration) and production modes with different static file serving strategies.
+**Styling Strategy**: 
+- Tailwind CSS with custom design tokens matching the Café Pavillon brand
+- CSS custom properties defined in `client/src/index.css` for theming
+- Design system enforces specific color palette: Charcoal (#1F2937), Warm Sand (#C49B6E), Soft Cream (#F6F3EE), Terracotta (#A83E2E), White (#FFFFFF)
+- Typography: Playfair Display (serif headings) and Inter (sans-serif body text)
 
-## Data Storage Solutions
-The application is configured for PostgreSQL using Drizzle ORM:
-- **ORM**: Drizzle ORM with PostgreSQL dialect for type-safe database operations
-- **Schema Management**: Shared TypeScript schema definitions between client and server
-- **Database Provider**: Neon Database serverless PostgreSQL (@neondatabase/serverless)
-- **Migrations**: Drizzle-kit for schema migrations and database management
-- **Current Implementation**: In-memory storage for development with database schema ready for production deployment
+**State Management**: React Query (@tanstack/react-query) for server state management and API interactions. No global client state library; component-level state via React hooks.
 
-## Authentication and Authorization
-Currently, the application has a basic user schema defined but no active authentication system implemented. The database schema includes a users table with username/password fields, indicating preparation for future authentication features.
+**Routing**: Wouter for lightweight client-side routing (single-page application with smooth anchor scrolling for navigation).
+
+**Form Handling**: React Hook Form with Zod schema validation for type-safe form submissions (reservations, contact forms, newsletter).
+
+**Page Structure**: Single-page layout with sectioned components:
+- Header (sticky navigation)
+- Hero (full-screen with call-to-action)
+- About (vision statement)
+- Menu (curated menu items)
+- Gallery (image lightbox)
+- Privatisations (event booking form)
+- Reservation (table booking form)
+- Contact (location and contact information)
+- Footer (newsletter signup, social links)
+
+### Backend Architecture
+
+**Framework**: Express.js with TypeScript running on Node.js.
+
+**API Design**: RESTful endpoints under `/api` namespace:
+- POST `/api/reservations` - Create table reservation
+- POST `/api/contact` - Submit contact/quote request
+- POST `/api/newsletter` - Newsletter subscription
+
+**Request Processing**:
+- JSON body parsing with raw body preservation for webhook validation
+- URL-encoded form data support
+- Custom logging middleware for request/response tracking
+
+**Error Handling**: Zod schema validation on API endpoints with structured error responses including field-level errors.
+
+**Development vs Production**:
+- Development: Vite middleware integration for hot module replacement
+- Production: Serves static compiled frontend from `dist/public`
+
+**Build Process**: Custom esbuild script bundles server code with selective dependency bundling (allowlist strategy) to optimize cold start times.
+
+### Data Storage Solutions
+
+**Database**: PostgreSQL accessed via Neon serverless driver (@neondatabase/serverless).
+
+**ORM**: Drizzle ORM for type-safe database queries and schema management.
+
+**Schema Structure** (defined in `shared/schema.ts`):
+
+1. **reservations** table:
+   - id (UUID primary key)
+   - name, phone, email (customer contact)
+   - date, time, partySize (reservation details)
+   - notes (optional special requests)
+   - createdAt (timestamp)
+
+2. **contactRequests** table:
+   - id (UUID primary key)
+   - name, email, phone (contact info)
+   - subject, message (inquiry details)
+   - eventType, eventDate, guestCount (optional event fields)
+   - createdAt (timestamp)
+
+3. **newsletterSubscriptions** table:
+   - id (UUID primary key)
+   - email (unique)
+   - createdAt (timestamp)
+
+**Storage Abstraction**: IStorage interface allows swapping between in-memory storage (MemStorage for development) and PostgreSQL (DbStorage for production) without changing business logic.
+
+**Validation**: Drizzle-zod integration generates Zod schemas from database schema for consistent validation across client and server.
+
+### Authentication and Authorization
+
+**Current Implementation**: No authentication system. The application is a public-facing marketing site.
+
+**Rationale**: All features (viewing content, submitting forms) are intended for public access. Future admin panel for managing reservations would require adding authentication.
+
+### Deployment Architecture
+
+**Build Output**:
+- Client: Compiled to `dist/public` via Vite
+- Server: Bundled to `dist/index.cjs` via esbuild
+
+**Static Asset Handling**: Express serves client build output with SPA fallback to `index.html`.
+
+**Environment Configuration**:
+- `DATABASE_URL` required for database connection
+- `NODE_ENV` determines development vs production behavior
+
+**Server Startup**: HTTP server created via Node's `http` module wrapping Express app (enables WebSocket upgrade support if needed).
 
 ## External Dependencies
 
-### Database Services
-- **Neon Database**: Serverless PostgreSQL database service
-- **Drizzle ORM**: Type-safe database toolkit for TypeScript
-- **Drizzle Kit**: Schema management and migration tool
+### Third-Party Services
 
-### UI and Styling
-- **Radix UI**: Headless UI component primitives for accessibility
-- **Tailwind CSS**: Utility-first CSS framework
-- **shadcn/ui**: Pre-built component library based on Radix UI
-- **Lucide React**: Icon library for consistent iconography
+**Database**: Neon Serverless PostgreSQL - managed PostgreSQL with serverless connection pooling.
 
-### Development and Build Tools
-- **Vite**: Fast build tool and development server
-- **TypeScript**: Static type checking and enhanced developer experience
-- **ESBuild**: Fast JavaScript bundler for production builds
-- **PostCSS**: CSS post-processing for Tailwind
+**Fonts**: Google Fonts CDN for Playfair Display and Inter typography.
 
-### Frontend Libraries
-- **TanStack React Query**: Server state management and caching
-- **React Hook Form**: Form handling and validation
-- **Wouter**: Lightweight client-side routing
-- **Zod**: Runtime type validation and schema definition
-- **date-fns**: Date manipulation utilities
+**Maps**: Integrated map component in Contact section (implementation accepts either Leaflet or Google Maps embed as per design brief).
 
-### Backend Libraries
-- **Express.js**: Web application framework for Node.js
-- **connect-pg-simple**: PostgreSQL session store for Express
-- **tsx**: TypeScript execution for development server
+### Key NPM Packages
 
-### Replit Integration
-- **@replit/vite-plugin-runtime-error-modal**: Enhanced error reporting
-- **@replit/vite-plugin-cartographer**: Development tooling integration
+**UI Framework**:
+- `react`, `react-dom` - UI library
+- `@radix-ui/*` - Unstyled accessible component primitives (20+ packages)
+- `tailwindcss` - Utility-first CSS framework
+- `class-variance-authority`, `clsx`, `tailwind-merge` - Styling utilities
+
+**Data Layer**:
+- `drizzle-orm` - TypeScript ORM
+- `drizzle-zod` - Schema-to-Zod validator
+- `@neondatabase/serverless` - PostgreSQL driver
+- `@tanstack/react-query` - Server state management
+
+**Forms & Validation**:
+- `react-hook-form` - Form state management
+- `zod` - Schema validation
+- `@hookform/resolvers` - React Hook Form + Zod integration
+
+**Server**:
+- `express` - Web framework
+- `vite` - Development server with HMR
+
+**Utilities**:
+- `date-fns` - Date manipulation
+- `lucide-react` - Icon library (Feather-style icons per design guidelines)
+- `embla-carousel-react` - Carousel/gallery functionality
+- `wouter` - Lightweight routing
+
+### Development Tools
+
+- `tsx` - TypeScript execution for development
+- `esbuild` - Fast bundler for production server code
+- `drizzle-kit` - Database migration tool
+- `typescript` - Type checking
+- `@replit/vite-plugin-*` - Replit-specific development enhancements
+
+### Asset Management
+
+**Static Images**: Stored in `attached_assets/stock_images/` directory with semantic filenames. Images imported as ES modules in components via Vite's asset handling.
+
+**Image Strategy**: Stock photography following design guidelines (warm palette, shallow depth of field, professional food/café photography).
